@@ -13,12 +13,14 @@ public interface UserOutPort {
 
     List<User> getAllUsers();
 
-    User finfUserById(int id);
+    User findUserById(int id);
 
-    Boolean deleteUserById(int id);
+    User findUserByName(String name);
 
-    long updateUserById(int id);
+    Boolean deleteUserById(int id) throws IOException;
 
-    long replaceUserById(int id);
+    int updateUser(User user) throws IOException;
+
+    int replaceUser(User user) throws IOException;
 
 }
