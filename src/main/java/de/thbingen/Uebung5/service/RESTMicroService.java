@@ -2,6 +2,8 @@ package de.thbingen.Uebung5.service;
 
 import de.thbingen.Uebung5.ports.in.RESTPort;
 import de.thbingen.Uebung5.ports.in.User;
+import de.thbingen.Uebung5.ports.out.Operation;
+import de.thbingen.Uebung5.ports.out.UpdateNotificationPort;
 import de.thbingen.Uebung5.ports.out.UserOutPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,15 @@ public class RESTMicroService implements RESTPort {
     @Autowired
     private UserOutPort userOutPort;
 
+    @Autowired
+    private UpdateNotificationPort webSocketAdapter;
+
     public int addUser(int id, String name) throws IOException {
         User newUser = new User();
         newUser.setId(id);
         newUser.setName(name);
         System.out.println("Service created User");
+        webSocketAdapter.notify(newUser, Operation.CREATED);
         return userOutPort.storeUserToCSV(newUser);
     }
 
